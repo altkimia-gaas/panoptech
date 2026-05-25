@@ -1,0 +1,668 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.app{width:100%;padding:1.5rem 0;font-family:var(--font-sans)}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary);flex-wrap:wrap;gap:8px}
+.brand{display:flex;align-items:center;gap:10px}
+.bmark{width:32px;height:32px;border-radius:6px;background:#085041;display:flex;align-items:center;justify-content:center}
+.bmark i{color:#9FE1CB;font-size:16px}
+.bname{font-size:15px;font-weight:500;color:var(--color-text-primary);letter-spacing:.03em}
+.bsub{font-size:11px;color:var(--color-text-secondary);letter-spacing:.07em;text-transform:uppercase}
+.sectabs{display:flex;gap:4px;flex-wrap:wrap}
+.stab{font-size:11px;padding:4px 11px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:transparent;cursor:pointer;color:var(--color-text-secondary);transition:all .15s}
+.stab:hover{background:var(--color-background-secondary)}
+.stab.on{background:#085041;color:#9FE1CB;border-color:#085041}
+.slidetabs{display:flex;gap:0;margin-bottom:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);overflow-x:auto;padding-bottom:0}
+.slt{font-size:11px;padding:6px 12px;border:none;background:transparent;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s}
+.slt:hover{color:var(--color-text-primary)}
+.slt.on{color:#0F6E56;border-bottom-color:#0F6E56;font-weight:500}
+.slide{display:none;animation:fi .2s ease}
+.slide.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.botnav{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary)}
+.nbtn{display:flex;align-items:center;gap:5px;font-size:13px;padding:5px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:transparent;cursor:pointer;color:var(--color-text-secondary);transition:all .15s}
+.nbtn:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.nbtn:disabled{opacity:.3;cursor:default}
+.ctr{font-size:12px;color:var(--color-text-secondary);text-align:center}
+.sh{display:flex;align-items:flex-start;gap:12px;margin-bottom:1.25rem}
+.snum{width:40px;height:40px;border-radius:8px;background:#E1F5EE;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:500;color:#085041}
+.snumb{width:40px;height:40px;border-radius:8px;background:#E6F1FB;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:500;color:#042C53}
+.snuma{width:40px;height:40px;border-radius:8px;background:#FAEEDA;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:500;color:#633806}
+.stitle{font-size:18px;font-weight:500;color:var(--color-text-primary);line-height:1.3}
+.ssub{font-size:13px;color:var(--color-text-secondary);margin-top:3px}
+.g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-bottom:10px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:10px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.85rem 1rem}
+.ca{border-left:2px solid #1D9E75}
+.cw{border-left:2px solid #BA7517}
+.cd{border-left:2px solid #A32D2D}
+.cb{border-left:2px solid #378ADD}
+.ctitle{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.cbody{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.clabel{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
+.bg{background:#E1F5EE;color:#085041}
+.ba{background:#FAEEDA;color:#633806}
+.br{background:#FCEBEB;color:#501313}
+.bb{background:#E6F1FB;color:#042C53}
+.bk{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.bp{background:#EEEDFE;color:#26215C}
+.slabel{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--color-text-secondary);margin-bottom:7px;margin-top:14px}
+.krow{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.kbox{flex:1;min-width:90px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px}
+.knum{font-size:19px;font-weight:500;color:var(--color-text-primary)}
+.klabel{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.lrow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.lrow:last-child{border-bottom:none}
+.ln{color:var(--color-text-primary);font-weight:500}
+.slist{display:flex;flex-direction:column;gap:7px}
+.sitem{display:flex;gap:9px;align-items:flex-start}
+.sn{width:20px;height:20px;border-radius:50%;background:#0F6E56;color:#E1F5EE;font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.snr{width:20px;height:20px;border-radius:50%;background:#A32D2D;color:#FCEBEB;font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.st{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.qblock{border-left:3px solid #1D9E75;padding:.7rem 1rem;background:var(--color-background-secondary);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;margin-bottom:10px}
+.qtext{font-size:13px;color:var(--color-text-primary);line-height:1.7;font-style:italic}
+.qsrc{font-size:11px;color:var(--color-text-secondary);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.bigclaim{font-size:17px;font-weight:500;color:var(--color-text-primary);line-height:1.4;margin:1rem 0;padding:1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);text-align:center}
+.accent{color:#0F6E56}
+.accentr{color:#A32D2D}
+.mgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-bottom:10px}
+.mitem{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:9px;text-align:center}
+.mcode{font-size:12px;font-weight:500;color:#0F6E56}
+.mname{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.objcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:7px}
+.objq{background:var(--color-background-secondary);padding:.65rem 1rem;font-size:13px;font-weight:500;color:var(--color-text-primary);display:flex;align-items:center;gap:8px}
+.obja{padding:.65rem 1rem;font-size:13px;color:var(--color-text-secondary);line-height:1.6;border-top:0.5px solid var(--color-border-tertiary)}
+.stepper{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.step{display:flex;align-items:flex-start;gap:10px;padding:9px 13px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)}
+.stepnum{width:24px;height:24px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.steplabel{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.stepdesc{font-size:12px;color:var(--color-text-secondary);margin-left:6px}
+.stephi{background:#E1F5EE;border:0.5px solid #5DCAA5}
+.pill-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.instrow{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.instrow:last-child{border-bottom:none}
+.idot{width:7px;height:7px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:5px}
+.phasebar{display:flex;gap:8px;margin-bottom:10px}
+.phase{flex:1;padding:10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.phon{background:#E1F5EE;border-color:#5DCAA5}
+.phon .phlabel,.phon .phtitle{color:#085041}
+.phlabel{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-secondary);margin-bottom:3px}
+.phtitle{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.phdesc{font-size:12px;color:var(--color-text-secondary);margin-top:3px;line-height:1.5}
+.wbox{background:#FAEEDA;border-radius:var(--border-radius-md);padding:.75rem 1rem;margin-bottom:10px;border:0.5px solid #EF9F27}
+.wt{font-size:13px;font-weight:500;color:#412402;margin-bottom:3px}
+.wb{font-size:12px;color:#633806;line-height:1.5}
+.ibox{background:#E6F1FB;border-radius:var(--border-radius-md);padding:.75rem 1rem;margin-bottom:10px;border:0.5px solid #85B7EB}
+.it{font-size:13px;font-weight:500;color:#042C53;margin-bottom:3px}
+.ib{font-size:12px;color:#185FA5;line-height:1.5}
+.sbox{background:#E1F5EE;border-radius:var(--border-radius-md);padding:.75rem 1rem;margin-bottom:10px;border:0.5px solid #5DCAA5}
+.st2{font-size:13px;font-weight:500;color:#04342C;margin-bottom:3px}
+.sb{font-size:12px;color:#085041;line-height:1.5}
+.rbox{background:#FCEBEB;border-radius:var(--border-radius-md);padding:.75rem 1rem;margin-bottom:10px;border:0.5px solid #F09595}
+.rt{font-size:13px;font-weight:500;color:#501313;margin-bottom:3px}
+.rb{font-size:12px;color:#A32D2D;line-height:1.5}
+.covhead{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary);flex-wrap:wrap;gap:10px}
+.diag-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.diag-row:last-child{border-bottom:none}
+.diag-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.diag-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.diag-body{font-size:12px;color:var(--color-text-secondary);margin-top:2px;line-height:1.5}
+.rec-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.rec-row:last-child{border-bottom:none}
+.rec-num{width:22px;height:22px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.rec-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.rec-body{font-size:12px;color:var(--color-text-secondary);margin-top:2px;line-height:1.5}
+.comp-row{display:grid;grid-template-columns:140px 1fr 1fr;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px;align-items:start}
+.comp-row:last-child{border-bottom:none}
+.comp-label{font-size:11px;font-weight:500;color:var(--color-text-secondary)}
+.comp-old{color:#A32D2D}
+.comp-new{color:#085041}
+</style>
+
+<h2 class="sr-only">Panoptech v3 definitivo — Análisis y recomendaciones más tres decks completos con mejoras de fondo incorporadas</h2>
+
+<div class="app">
+<div class="topbar">
+  <div class="brand">
+    <div class="bmark"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+    <div>
+      <div class="bname">PANOPTECH</div>
+      <div class="bsub">Pucará Seguridad · Confidencial · v3.0 · Mayo 2026</div>
+    </div>
+  </div>
+  <div class="sectabs" id="sectabs"></div>
+</div>
+<div class="slidetabs" id="slidetabs"></div>
+<div id="slides"></div>
+<div class="botnav">
+  <button class="nbtn" id="pb" onclick="nav(-1)" disabled><i class="ti ti-arrow-left" aria-hidden="true"></i> Anterior</button>
+  <span class="ctr" id="ctr"></span>
+  <button class="nbtn" id="nb" onclick="nav(1)">Siguiente <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+</div>
+</div>
+
+<script>
+const D={
+analisis:{label:'Análisis y recomendaciones',slides:[
+{label:'Diagnóstico general',h:`
+<div class="sh"><div class="snuma">AR</div><div><div class="stitle">Diagnóstico ejecutivo de Panoptech v1.0</div><div class="ssub">Qué está bien · qué falta · qué puede matar el proyecto</div></div></div>
+<div class="ibox"><div class="it">Naturaleza del documento original</div><div class="ib">Pitch conceptual de ventas de 28 páginas. Fuerte en framing político y respaldo legal. Débil en arquitectura técnica, modelo de negocio, gobernanza de datos y caso de negocio cuantificado. Para abrir puertas sirve. Para cerrar contratos, no.</div></div>
+<div class="slabel">Fortalezas reales — lo que funciona hoy</div>
+<div class="g3">
+  <div class="card ca"><div class="ctitle"><i class="ti ti-check" aria-hidden="true" style="font-size:13px;margin-right:4px;color:#1D9E75"></i>Marco legal resuelto</div><div class="cbody">Cada módulo tiene respaldo en legislación vigente. No requiere nueva ley. Ventaja táctica que la mayoría de los proyectos GovTech no tiene.</div></div>
+  <div class="card ca"><div class="ctitle"><i class="ti ti-check" aria-hidden="true" style="font-size:13px;margin-right:4px;color:#1D9E75"></i>Timing político excepcional</div><div class="cbody">Plan Nacional de Seguridad Pública activo. Ministra con mandato de resultados. 40.825 prófugos como cifra imposible de ignorar políticamente.</div></div>
+  <div class="card ca"><div class="ctitle"><i class="ti ti-check" aria-hidden="true" style="font-size:13px;margin-right:4px;color:#1D9E75"></i>Antecedente institucional</div><div class="cbody">Registro Viajeros PDI 2016 valida el modelo. App móvil patentada es diferenciador real si la patente es sólida.</div></div>
+</div>
+<div class="slabel">Brechas críticas — lo que puede matar el proyecto</div>
+<div class="slist">
+  <div class="sitem"><div class="snr">1</div><div class="st">Sin modelo de negocio definido. No hay respuesta clara a: ¿es concesión, licencia SaaS o PPP? ¿Quién opera? ¿Quién es responsable de los datos? Sin eso, ningún abogado del Ministerio avanza.</div></div>
+  <div class="sitem"><div class="snr">2</div><div class="st">Sin gobernanza de datos. El sistema captura identidad + geolocalización en tiempo real. Sin política de retención, acceso, auditoría y titular del dato, el proyecto muere en el primer análisis jurídico interno.</div></div>
+  <div class="sitem"><div class="snr">3</div><div class="st">Sin arquitectura técnica. No hay respuesta a cómo se integra con SIAP, SABI y Poder Judicial. Esa es la pregunta que hará el primer equipo técnico ministerial que vea el sistema.</div></div>
+  <div class="sitem"><div class="snr">4</div><div class="st">Sin caso de negocio cuantificado. El Estado no compra tecnología, compra resultados. Sin ROI con benchmarks y proyecciones defendibles ante Dipres, no hay presupuesto.</div></div>
+  <div class="sitem"><div class="snr">5</div><div class="st">Riesgo de naming no gestionado. "Panoptech" como nombre público puede desencadenar un debate de vigilancia masiva que desplace el debate sobre prófugos. Necesita blindaje comunicacional antes del primer titular de prensa.</div></div>
+</div>`},
+{label:'Riesgos por bloque',h:`
+<div class="sh"><div class="snuma">AR</div><div><div class="stitle">Mapa de riesgos críticos por bloque</div><div class="ssub">Lo que puede frenar, desviar o destruir el proyecto en cada dimensión</div></div></div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="diag-row">
+    <div class="diag-icon" style="background:#FCEBEB"><i class="ti ti-alert-triangle" aria-hidden="true" style="color:#A32D2D;font-size:14px"></i></div>
+    <div><div class="diag-title">Audiencias — confusión de interlocutores</div><div class="diag-body">Presentar el mismo documento a la Ministra y al arquitecto de sistemas del Ministerio. Uno sale insatisfecho y bloquea el proceso. Riesgo: alto. Impacto: pérdida de oportunidad en primera reunión.</div></div>
+  </div>
+  <div class="diag-row">
+    <div class="diag-icon" style="background:#FCEBEB"><i class="ti ti-alert-triangle" aria-hidden="true" style="color:#A32D2D;font-size:14px"></i></div>
+    <div><div class="diag-title">Naming — un titular puede reencuadrar todo el debate</div><div class="diag-body">"Panoptech" en boca de un periodista de CIPER o un diputado opositor convierte el debate sobre prófugos en debate sobre vigilancia de Estado. Sin kit de prensa y memo jurídico preparados, el proyecto queda a la defensiva.</div></div>
+  </div>
+  <div class="diag-row">
+    <div class="diag-icon" style="background:#FAEEDA"><i class="ti ti-alert-triangle" aria-hidden="true" style="color:#BA7517;font-size:14px"></i></div>
+    <div><div class="diag-title">Integración técnica — las APIs no existen hoy</div><div class="diag-body">SIAP y SABI no tienen APIs públicas. Conseguirlas puede tomar 6 a 18 meses de negociación técnica bilateral. El pitch político puede prometer plazos que la realidad técnica no puede cumplir.</div></div>
+  </div>
+  <div class="diag-row">
+    <div class="diag-icon" style="background:#FAEEDA"><i class="ti ti-alert-triangle" aria-hidden="true" style="color:#BA7517;font-size:14px"></i></div>
+    <div><div class="diag-title">Contratación — la licitación puede tomar 18 meses</div><div class="diag-body">Sin estrategia para evitar licitación pública completa (trato directo, convenio marco o urgencia justificada), el sistema llega tarde a la ventana política disponible.</div></div>
+  </div>
+  <div class="diag-row">
+    <div class="diag-icon" style="background:#FCEBEB"><i class="ti ti-alert-triangle" aria-hidden="true" style="color:#A32D2D;font-size:14px"></i></div>
+    <div><div class="diag-title">Gobernanza — un falso positivo de alto perfil puede paralizar el proyecto</div><div class="diag-body">Un ciudadano sin encargo detenido por error del sistema es un incidente que puede terminar en el Congreso y en los titulares. Sin protocolo operativo explícito de que el sistema no es causa única de detención, el riesgo es sistémico.</div></div>
+  </div>
+  <div class="diag-row">
+    <div class="diag-icon" style="background:#FAEEDA"><i class="ti ti-alert-triangle" aria-hidden="true" style="color:#BA7517;font-size:14px"></i></div>
+    <div><div class="diag-title">Piloto — sin campeón institucional local el sistema muere por inercia</div><div class="diag-body">Funcionarios en terreno ya están sobrecargados. Un sistema que agrega carga operativa sin simplificar el trabajo será abandonado informalmente aunque esté instalado y funcionando.</div></div>
+  </div>
+  <div class="diag-row">
+    <div class="diag-icon" style="background:#FAEEDA"><i class="ti ti-alert-triangle" aria-hidden="true" style="color:#BA7517;font-size:14px"></i></div>
+    <div><div class="diag-title">ROI — proyecciones sin metodología son un riesgo ante Dipres</div><div class="diag-body">Si las proyecciones de impacto no tienen metodología acordada con el Ministerio, Dipres puede rechazarlas como wishful thinking. Los KPIs deben definirse antes del piloto, no después de ver los resultados.</div></div>
+  </div>
+</div>`},
+{label:'Recomendaciones',h:`
+<div class="sh"><div class="snuma">AR</div><div><div class="stitle">Recomendaciones estratégicas — plan de acción</div><div class="ssub">7 bloques · 21 acciones concretas · secuenciadas por urgencia</div></div></div>
+<div class="slabel">Bloque 1 — Separación de audiencias (esta semana)</div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="rec-row"><div class="rec-num">1</div><div><div class="rec-title">Producir dos documentos separados</div><div class="rec-body">Deck político de 12 láminas para Ministra/subsecretarios. Documento técnico de 25 páginas para equipos ministeriales. Son lógicas argumentales distintas, no el mismo contenido con distinto formato.</div></div></div>
+  <div class="rec-row"><div class="rec-num">2</div><div><div class="rec-title">Identificar el punto de entrada correcto</div><div class="rec-body">No es la Ministra en primera instancia. Es el Subsecretario de Seguridad o el jefe de Modernización. Ellos hacen la evaluación técnica que habilita la conversación política.</div></div></div>
+  <div class="rec-row"><div class="rec-num">3</div><div><div class="rec-title">Demo funcional del módulo ACIP en 2 semanas</div><div class="rec-body">Sin demo, no hay conversación técnica seria. El módulo más simple (control policial en calle) es el más rápido de mostrar y el más comprensible para audiencias no técnicas.</div></div></div>
+</div>
+<div class="slabel">Bloque 2 — Naming y blindaje comunicacional (esta semana)</div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="rec-row"><div class="rec-num">4</div><div><div class="rec-title">Decidir estrategia de naming antes de cualquier reunión formal</div><div class="rec-body">Panoptech como nombre interno/reservado es viable. Como nombre público requiere blindaje. Una vez que el nombre circula en el ecosistema institucional es muy difícil cambiarlo.</div></div></div>
+  <div class="rec-row"><div class="rec-num">5</div><div><div class="rec-title">Encargar memo jurídico a constitucionalista</div><div class="rec-body">2 páginas que establezcan la distinción entre trazabilidad judicial focalizada y vigilancia masiva. Es el escudo ante cualquier cuestionamiento público o parlamentario.</div></div></div>
+  <div class="rec-row"><div class="rec-num">6</div><div><div class="rec-title">Preparar kit de prensa pre-crisis</div><div class="rec-body">Nota oficial, FAQ ciudadano y declaración tipo para voceros. La crisis comunicacional no se maneja en el momento de la crisis. Tres niveles: redes sociales, prensa, parlamento.</div></div></div>
+</div>
+<div class="slabel">Bloques 3-7 — Técnica, negocio, gobernanza, piloto y ROI (próximas 2 semanas)</div>
+<div class="card" style="padding:.75rem 1rem">
+  <div class="rec-row"><div class="rec-num">7</div><div><div class="rec-title">Levantar estado de APIs en Registro Civil, Poder Judicial y PDI</div><div class="rec-body">Determina el timeline real de implementación. El pitch político probablemente está prometiendo plazos que la realidad técnica no puede cumplir.</div></div></div>
+  <div class="rec-row"><div class="rec-num">8</div><div><div class="rec-title">Contratar abogado especialista en contratación pública</div><div class="rec-body">Para definir cuál de las tres opciones contractuales es jurídicamente más rápida y menos expuesta. Sin ese insumo, cualquier negociación con el Ministerio es prematura.</div></div></div>
+  <div class="rec-row"><div class="rec-num">9</div><div><div class="rec-title">Redactar política de gobernanza de datos completa</div><div class="rec-body">Es el documento que los abogados del Ministerio van a pedir primero. Sin él, ningún equipo jurídico institucional avanza. Titular del dato, retención, acceso, auditoría.</div></div></div>
+  <div class="rec-row"><div class="rec-num">10</div><div><div class="rec-title">Encargar cuantificación del costo de los prófugos a economista especializado</div><div class="rec-body">Con datos del Ministerio Público y Carabineros. Ese número es la piedra angular del caso de negocio y necesita ser defendible ante Dipres. No puede ser una estimación propia.</div></div></div>
+  <div class="rec-row"><div class="rec-num">11</div><div><div class="rec-title">Definir KPIs del piloto con el equipo técnico del Ministerio antes de comenzar</div><div class="rec-body">No después de ver los resultados. Si los criterios se definen ex post, siempre hay presión para interpretar los datos favorablemente. Esa conversación es parte del proceso de venta.</div></div></div>
+</div>`},
+{label:'Comparativa v1 vs v3',h:`
+<div class="sh"><div class="snuma">AR</div><div><div class="stitle">Qué cambia entre v1.0 y v3.0</div><div class="ssub">Comparativa de fondo — no de formato</div></div></div>
+<div class="ibox"><div class="it">Criterio de comparación</div><div class="ib">La diferencia entre v1 y v3 no es estética. Es de sustancia: v1 puede abrir puertas. v3 puede cerrar contratos. Son etapas distintas del proceso de venta institucional.</div></div>
+<div class="slabel">Diferencias por dimensión</div>
+<div class="card" style="padding:.75rem 1rem">
+  <div style="display:grid;grid-template-columns:130px 1fr 1fr;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)">
+    <span style="font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em">Dimensión</span>
+    <span style="font-size:11px;font-weight:500;color:#A32D2D;text-transform:uppercase;letter-spacing:.06em">v1.0 — estado actual</span>
+    <span style="font-size:11px;font-weight:500;color:#085041;text-transform:uppercase;letter-spacing:.06em">v3.0 — esta versión</span>
+  </div>
+  <div class="comp-row"><span class="comp-label">Audiencias</span><span class="comp-old">Un solo documento para todos</span><span class="comp-new">Deck político + deck técnico + one-pager Dipres</span></div>
+  <div class="comp-row"><span class="comp-label">Naming</span><span class="comp-old">Sin estrategia de blindaje</span><span class="comp-new">Kit de prensa + memo jurídico + 3 niveles de respuesta</span></div>
+  <div class="comp-row"><span class="comp-label">Arquitectura técnica</span><span class="comp-old">Ausente</span><span class="comp-new">6 capas + stack + modelo de datos + integraciones</span></div>
+  <div class="comp-row"><span class="comp-label">Modelo de negocio</span><span class="comp-old">Ausente</span><span class="comp-new">3 opciones contractuales con táctica de adjudicación rápida</span></div>
+  <div class="comp-row"><span class="comp-label">Gobernanza de datos</span><span class="comp-old">Ausente</span><span class="comp-new">4 niveles de acceso + retención + protocolo acceso ciudadano + auditoría independiente</span></div>
+  <div class="comp-row"><span class="comp-label">Piloto</span><span class="comp-old">Propuesta general sin KPIs</span><span class="comp-new">3 fases + 6 KPIs con umbrales + presupuesto desglosado + criterio de escalamiento</span></div>
+  <div class="comp-row"><span class="comp-label">ROI</span><span class="comp-old">Narrativa sin cifras</span><span class="comp-new">3 escenarios cuantificados + benchmarks + ruta presupuestaria + narrativa Dipres</span></div>
+  <div class="comp-row"><span class="comp-label">Objeciones</span><span class="comp-old">3 objeciones básicas</span><span class="comp-new">5 objeciones incluyendo persecución política y acceso ciudadano a sus propios datos</span></div>
+  <div class="comp-row"><span class="comp-label">Contratación</span><span class="comp-old">Ausente</span><span class="comp-new">Táctica específica para evitar licitación + convenio colaboración como vía rápida</span></div>
+</div>`}
+]},
+politico:{label:'Deck político',slides:[
+{label:'Portada',h:`
+<div class="covhead">
+  <div><div style="font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.1em">Presentado a</div>
+  <div style="font-size:17px;font-weight:500;color:var(--color-text-primary);margin-top:3px">Sr. Alberto Soto</div>
+  <div style="font-size:13px;color:var(--color-text-secondary)">Comisionado Zona Norte · Seguridad Pública</div></div>
+  <div style="text-align:right"><div style="font-size:11px;color:var(--color-text-secondary)">Pucará Seguridad · Confidencial</div><div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-top:3px">Mayo 2026 · v3.0</div></div>
+</div>
+<div class="bigclaim">Chile tiene <span class="accent">40.825 personas</span> con órdenes de aprehensión vigentes circulando libremente por el territorio nacional.<br><br>No porque la justicia no haya actuado —<br>sino porque el Estado aún no tiene la herramienta para ejecutarlas.</div>
+<div class="g3">
+  <div class="card ca"><div class="ctitle">El problema</div><div class="cbody">Impunidad operacional: 40.825 órdenes judiciales emitidas que el sistema no puede cumplir por ausencia de trazabilidad interinstitucional.</div></div>
+  <div class="card ca"><div class="ctitle">La solución</div><div class="cbody">Panoptech conecta en tiempo real los 8 puntos donde los prófugos inevitablemente aparecen con las órdenes que los buscan.</div></div>
+  <div class="card ca"><div class="ctitle">El momento</div><div class="cbody">Plan Nacional activo. Marco legal resuelto. El norte como piloto natural. Ventana que se cierra antes de la discusión presupuestaria 2027.</div></div>
+</div>`},
+{label:'01 · Problema',h:`
+<div class="sh"><div class="snum">01</div><div><div class="stitle">El problema que el norte conoce mejor que nadie</div><div class="ssub">Flujos migratorios · crimen transfronterizo · impunidad operacional</div></div></div>
+<div class="krow">
+  <div class="kbox"><div class="knum">40.825</div><div class="klabel">Prófugos activos enero 2026</div></div>
+  <div class="kbox"><div class="knum">3</div><div class="klabel">Únicos controles actuales</div></div>
+  <div class="kbox"><div class="knum">40%</div><div class="klabel">Reinciden durante la evasión</div></div>
+  <div class="kbox"><div class="knum">+$80M</div><div class="klabel">Costo anual estimado USD</div></div>
+</div>
+<div class="slabel">Los 3 controles actuales — todos insuficientes</div>
+<div class="g3">
+  <div class="card cd"><div class="ctitle">Salida del país</div><div class="cbody">Único control automático. Inútil si el prófugo no tiene intención de salir. Cubre menos del 5% de los escenarios de detección posibles.</div></div>
+  <div class="card cd"><div class="ctitle">Control policial en calle</div><div class="cbody">Depende del azar y disponibilidad operativa. Sin sistematización ni trazabilidad. No escalable ni auditable.</div></div>
+  <div class="card cd"><div class="ctitle">Detención directa</div><div class="cbody">Solo ocurre cuando el sujeto comete un nuevo delito. Es decir: el sistema solo actúa cuando ya hubo otra víctima.</div></div>
+</div>
+<div class="slabel">Por qué el norte es el escenario más crítico</div>
+<div class="card ca"><div class="cbody">Arica, Tarapacá y Antofagasta concentran el mayor flujo de personas de interés: migración irregular, crimen organizado transfronterizo, rutas de tráfico y redes de apoyo logístico. Un resultado aquí tiene resonancia nacional. El piloto norte no es una decisión técnica — es una decisión política.</div></div>`},
+{label:'02 · Oportunidad',h:`
+<div class="sh"><div class="snum">02</div><div><div class="stitle">El momento político es único e irrepetible</div><div class="ssub">Plan Nacional · ventana presupuestaria · mandato de resultados antes de fin de año</div></div></div>
+<div class="qblock"><div class="qtext">"El Estado recupera la soberanía en cada espacio estratégico. Sistemas integrados para convertir detenciones en sentencias efectivas. Entrega de herramientas tecnológicas, legales y materiales al Estado."</div><div class="qsrc">Plan Nacional de Seguridad Pública · Ministra Trinidad Steinert · Mayo 2026</div></div>
+<div class="slabel">Los 3 pilares del plan y cómo Panoptech los cumple</div>
+<div class="g3">
+  <div class="card ca"><div class="badge bg" style="margin-bottom:6px">Pilar 1</div><div class="ctitle">Control territorial</div><div class="cbody">Cubre las 6 dimensiones del plan: fronteras, rutas, calles, cárceles, puertos, territorios complejos.</div></div>
+  <div class="card ca"><div class="badge bg" style="margin-bottom:6px">Pilar 2</div><div class="ctitle">Eficacia persecutoria</div><div class="cbody">Dato de identidad a alerta judicial en menos de 30 segundos. Cierra el gap entre orden emitida y captura efectiva.</div></div>
+  <div class="card ca"><div class="badge bg" style="margin-bottom:6px">Pilar 3</div><div class="ctitle">Poder institucional</div><div class="cbody">Multiplica capacidad operativa sin aumentar dotación ni presupuesto fijo. Cada peso ya gastado rinde más.</div></div>
+</div>
+<div class="slabel">La urgencia real — la ventana presupuestaria</div>
+<div class="g2">
+  <div class="card cw"><div class="ctitle">El sistema que se pilotee ahora escala</div><div class="cbody">La discusión presupuestaria 2027 comienza en septiembre. El piloto que opere con resultados en agosto tiene argumentos reales. El que espere, no tiene presupuesto.</div></div>
+  <div class="card ca"><div class="ctitle">Sin nueva ley · sin espera</div><div class="cbody">Cada módulo opera bajo normativa vigente hoy. Cero trámite legislativo. Se puede contratar y operar en semanas, no en años.</div></div>
+</div>`},
+{label:'03 · Solución',h:`
+<div class="sh"><div class="snum">03</div><div><div class="stitle">Cómo funciona Panoptech</div><div class="ssub">App móvil patentada · 8 módulos · integrador central · alerta en tiempo real</div></div></div>
+<div class="ibox"><div class="it">Panoptech no reemplaza los sistemas institucionales — los conecta</div><div class="ib">SIAP, SABI y los sistemas del Poder Judicial siguen operando como siempre. Panoptech es la capa de integración que los hace hablar entre sí en tiempo real. Eso hoy no existe y ninguna institución puede construirlo sola.</div></div>
+<div class="slabel">El flujo en 4 pasos</div>
+<div class="stepper">
+  <div class="step"><div class="stepnum">1</div><div><span class="steplabel">Captura</span><span class="stepdesc">Operador escanea documento de identidad con app móvil patentada en cualquier punto de control.</span></div></div>
+  <div class="step"><div class="stepnum">2</div><div><span class="steplabel">Transmisión segura</span><span class="stepdesc">Dato georreferenciado viaja cifrado. Canal dedicado fuera de internet público. TLS 1.3.</span></div></div>
+  <div class="step"><div class="stepnum">3</div><div><span class="steplabel">Cotejo</span><span class="stepdesc">Motor compara contra órdenes vigentes del Poder Judicial en tiempo real. No almacena — consulta.</span></div></div>
+  <div class="step stephi"><div class="stepnum">4</div><div><span class="steplabel">Alerta al operador — en menos de 30 segundos</span><span class="stepdesc">El operador humano recibe la alerta y decide la acción. El sistema no detiene personas — informa a quien tiene la facultad de hacerlo.</span></div></div>
+</div>
+<div class="slabel">Los 8 módulos</div>
+<div class="mgrid">
+  <div class="mitem"><div class="mcode">ACIP</div><div class="mname">Control policial</div></div>
+  <div class="mitem"><div class="mcode">AVN</div><div class="mname">Vuelos nacionales</div></div>
+  <div class="mitem"><div class="mcode">ABI</div><div class="mname">Buses interprovin.</div></div>
+  <div class="mitem"><div class="mcode">ASAT</div><div class="mname">Alojamientos</div></div>
+  <div class="mitem"><div class="mcode">ACA</div><div class="mname">Control accesos</div></div>
+  <div class="mitem"><div class="mcode">ACEM</div><div class="mname">Eventos masivos</div></div>
+  <div class="mitem"><div class="mcode">AIRP</div><div class="mname">Recintos penit.</div></div>
+  <div class="mitem"><div class="mcode">AFIM</div><div class="mname">Inspectores mun.</div></div>
+</div>`},
+{label:'04 · Marco legal',h:`
+<div class="sh"><div class="snum">04</div><div><div class="stitle">Marco legal completamente resuelto</div><div class="ssub">Sin nueva legislación · sin reforma institucional · operativo hoy</div></div></div>
+<div class="sbox"><div class="st2">La ventaja táctica más importante de Panoptech</div><div class="sb">La mayoría de los proyectos GovTech en seguridad mueren en el análisis jurídico. Aquí ese paso ya está resuelto. Cada módulo tiene su respaldo legal verificado. No es un argumento de relleno — es el diferenciador que habilita velocidad de implementación.</div></div>
+<div class="slabel">Respaldo legal por módulo</div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="lrow"><span class="ln">ACA · Control de accesos</span><span class="badge bb">Ley 21.659 Art. 6</span></div>
+  <div class="lrow"><span class="ln">ABI · Buses interprovinciales</span><span class="badge bb">DS 212 MTT Art. 59 bis</span></div>
+  <div class="lrow"><span class="ln">AVN · Vuelos nacionales</span><span class="badge bb">Ley 21.610 Art. 90 bis</span></div>
+  <div class="lrow"><span class="ln">ACIP · Control policial</span><span class="badge bb">CPP Art. 85 · Ley 20.931</span></div>
+  <div class="lrow"><span class="ln">ASAT · Alojamientos</span><span class="badge bb">DS 227 Min. Economía</span></div>
+  <div class="lrow"><span class="ln">ACEM · Eventos masivos</span><span class="badge bb">Ley 21.659 Art. 12</span></div>
+  <div class="lrow"><span class="ln">AIRP · Recintos penitenciarios</span><span class="badge bb">DS 518 Art. 49</span></div>
+  <div class="lrow"><span class="ln">AFIM · Inspectores municipales</span><span class="badge bb">Ley 21.802 Art. 35</span></div>
+</div>
+<div class="card ca"><div class="ctitle">Antecedente institucional validado — Registro Viajeros PDI 2016</div><div class="cbody" style="margin-top:4px">La PDI operó desde 2016 una plataforma de trazabilidad de extranjeros con generación de alertas. Panoptech es su evolución técnica e institucional: 8 módulos, todos los actores del ecosistema, interconectados en tiempo real.</div></div>`},
+{label:'05 · Gobernanza',h:`
+<div class="sh"><div class="snum">05</div><div><div class="stitle">Garantías ciudadanas y gobernanza de datos</div><div class="ssub">Este slide existe para responder la pregunta antes de que la hagan</div></div></div>
+<div class="wbox"><div class="wt">Principio rector irrenunciable: privacidad por arquitectura</div><div class="wb">El sistema no puede depender solo de la ley para proteger a los ciudadanos. Debe estar construido de tal forma que el abuso sea técnicamente difícil. La arquitectura protege, la ley penaliza.</div></div>
+<div class="g2">
+  <div>
+    <div class="slabel">Qué se captura y qué no</div>
+    <div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+      <div class="lrow"><span class="ln">RUN + timestamp + geolocalización</span><span class="badge bg">Sí · captura</span></div>
+      <div class="lrow"><span class="ln">Datos biométricos</span><span class="badge br">No · nunca</span></div>
+      <div class="lrow"><span class="ln">Datos de ciudadanos sin encargo</span><span class="badge bg">No persisten</span></div>
+      <div class="lrow"><span class="ln">Exportación masiva de datos</span><span class="badge br">Prohibida técnica y contractualmente</span></div>
+    </div>
+    <div class="slabel">Acceso ciudadano a sus propios datos</div>
+    <div class="card ca"><div class="cbody">Toda persona tiene derecho a saber si sus datos fueron consultados. Canal oficial con plazo de respuesta de 15 días hábiles. Compatible con Ley de Transparencia y reforma Ley 19.628 en tramitación.</div></div>
+  </div>
+  <div>
+    <div class="slabel">Fiscalización independiente</div>
+    <div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+      <div class="lrow"><span class="ln">Dueño del dato</span><span class="badge bg">Estado · no negociable</span></div>
+      <div class="lrow"><span class="ln">Auditor externo</span><span class="badge bg">Consejo para la Transparencia</span></div>
+      <div class="lrow"><span class="ln">Logs de auditoría</span><span class="badge bb">Inmutables · 10 años</span></div>
+      <div class="lrow"><span class="ln">Alertas de uso anómalo</span><span class="badge bb">Automáticas</span></div>
+    </div>
+    <div class="slabel">Protocolo ante incidentes de seguridad</div>
+    <div class="card cw"><div class="cbody">Notificación en 72 horas a autoridad y personas afectadas. Plan de contención técnica y comunicación pública. Este protocolo existe y se ensaya antes de que el sistema opere, no como reacción.</div></div>
+  </div>
+</div>`},
+{label:'06 · Objeciones',h:`
+<div class="sh"><div class="snum">06</div><div><div class="stitle">Respuestas a las objeciones frecuentes</div><div class="ssub">Preparadas antes de la reunión · no improvisadas en la sala</div></div></div>
+<div class="objcard"><div class="objq"><i class="ti ti-help-circle" aria-hidden="true" style="font-size:13px;color:#BA7517"></i>¿Esto no es vigilancia masiva?</div><div class="obja">No. Vigilancia masiva es registro indiscriminado de toda la población. Panoptech contrasta una interacción contra 40.825 personas con órdenes judiciales vigentes emanadas del Poder Judicial. El 99.9% de los ciudadanos no genera alerta y su dato no persiste más de segundos. Es el Estado ejecutando decisiones de tribunales, no observando a su ciudadanía.</div></div>
+<div class="objcard"><div class="objq"><i class="ti ti-help-circle" aria-hidden="true" style="font-size:13px;color:#BA7517"></i>¿Vulnera el derecho a la privacidad?</div><div class="obja">El marco legal vigente autoriza expresamente cada punto de captura. Los datos de personas sin encargo no se almacenan. El sistema está diseñado con estándares RGPD europeos — más exigentes que los que Chile requiere hoy. Existe canal oficial para que cualquier ciudadano consulte si sus datos fueron procesados.</div></div>
+<div class="objcard"><div class="objq"><i class="ti ti-help-circle" aria-hidden="true" style="font-size:13px;color:#BA7517"></i>¿Y si el sistema se equivoca?</div><div class="obja">El sistema nunca es causa única de detención. El operador humano recibe la alerta y decide. Esto está en el protocolo operativo y en el contrato. La tasa máxima de falsos positivos es 5% — si se supera, hay revisión técnica automática antes de continuar operando. El sistema apoya, no reemplaza, la decisión policial.</div></div>
+<div class="objcard"><div class="objq"><i class="ti ti-help-circle" aria-hidden="true" style="font-size:13px;color:#BA7517"></i>¿Podría usarse para persecución política?</div><div class="obja">El sistema solo puede consultarse contra personas con órdenes judiciales vigentes — universo fijo emanado del Poder Judicial, no del Ejecutivo. Toda consulta queda en registro inmutable con usuario, timestamp y geolocalización. El Consejo para la Transparencia fiscaliza con acceso de solo lectura. El abuso es técnicamente difícil, no solo jurídicamente prohibido.</div></div>
+<div class="objcard"><div class="objq"><i class="ti ti-help-circle" aria-hidden="true" style="font-size:13px;color:#BA7517"></i>¿Qué garantías tienen los ciudadanos de que sus datos no se usarán mal?</div><div class="obja">Cuatro garantías estructurales: (1) los ciudadanos sin encargo no tienen dato almacenado; (2) toda consulta queda registrada en log inmutable; (3) el Consejo para la Transparencia fiscaliza de forma independiente; (4) cualquier ciudadano puede solicitar saber si fue consultado en el sistema. La gobernanza no es una promesa — es una arquitectura.</div></div>`},
+{label:'07 · Piloto norte',h:`
+<div class="sh"><div class="snum">07</div><div><div class="stitle">Diseño del piloto zona norte</div><div class="ssub">Tarapacá · Antofagasta · Arica · 12 meses · 3 módulos ancla · presupuesto desglosado</div></div></div>
+<div class="slabel">Fases de despliegue</div>
+<div class="phasebar">
+  <div class="phase phon"><div class="phlabel">Fase 0 · Meses 1-2</div><div class="phtitle">Instalación y pruebas</div><div class="phdesc">Setup técnico, capacitación operadores, integración Registro Civil. Sin operación real.</div></div>
+  <div class="phase phon"><div class="phlabel">Fase 1 · Meses 3-6</div><div class="phtitle">Operación controlada</div><div class="phdesc">Tarapacá + Antofagasta. ACIP + AVN + ABI. Supervisión diaria y ajuste de parámetros.</div></div>
+  <div class="phase"><div class="phlabel">Fase 2 · Meses 7-12</div><div class="phtitle">Operación plena</div><div class="phdesc">Arica + módulo ASAT. Evaluación para decisión de escalamiento nacional.</div></div>
+</div>
+<div class="slabel">KPIs definidos antes de comenzar — no después de ver los resultados</div>
+<div class="g2">
+  <div class="card" style="padding:.75rem 1rem">
+    <div class="lrow"><span class="ln">Capturas derivadas del sistema</span><span class="badge bg">≥ 15% de alertas</span></div>
+    <div class="lrow"><span class="ln">Tiempo captura → alerta</span><span class="badge bg">&lt; 30 segundos</span></div>
+    <div class="lrow"><span class="ln">Tasa de falsos positivos</span><span class="badge bg">&lt; 5%</span></div>
+    <div class="lrow"><span class="ln">Reducción prófugos zona</span><span class="badge bb">-10% en 12 meses</span></div>
+    <div class="lrow"><span class="ln">Satisfacción operadores</span><span class="badge bb">≥ 4 / 5</span></div>
+    <div class="lrow"><span class="ln">Alertas generadas/semana</span><span class="badge bb">Línea base mes 3</span></div>
+  </div>
+  <div>
+    <div class="slabel">Presupuesto desglosado</div>
+    <div class="card" style="padding:.75rem 1rem">
+      <div class="lrow"><span class="ln">CAPEX 3 módulos</span><span class="badge bb">$350–450K USD</span></div>
+      <div class="lrow"><span class="ln">OPEX operación 12 meses</span><span class="badge bb">$280–350K USD</span></div>
+      <div class="lrow"><span class="ln">Capacitación y cambio</span><span class="badge bk">$80–100K USD</span></div>
+      <div class="lrow"><span class="ln">Auditoría externa</span><span class="badge bk">$50–70K USD</span></div>
+      <div class="lrow"><span class="ln">Total piloto 12 meses</span><span class="badge ba">~$760–970K USD</span></div>
+    </div>
+  </div>
+</div>
+<div class="slabel">Criterio de escalamiento nacional</div>
+<div class="card" style="padding:.75rem 1rem">
+  <div class="lrow"><span class="ln">≥ 4 de 6 KPIs cumplidos</span><span class="badge bg">Escala a nacional</span></div>
+  <div class="lrow"><span class="ln">Exactamente 3 KPIs</span><span class="badge ba">Revisión técnica antes de escalar</span></div>
+  <div class="lrow"><span class="ln">Menos de 3 KPIs</span><span class="badge br">Rediseño obligatorio</span></div>
+</div>`},
+{label:'08 · Contratación',h:`
+<div class="sh"><div class="snum">08</div><div><div class="stitle">Modelo de contratación y estrategia de adjudicación</div><div class="ssub">Tres opciones · táctica específica para acelerar · sin licitación si es posible</div></div></div>
+<div class="g3">
+  <div class="card"><div class="clabel">Opción A</div><div class="ctitle">Concesión de servicios</div><div class="cbody" style="margin-top:4px">Empresa opera. Estado paga tarifa mensual por módulo + variable por volumen de transacciones.</div><div class="pill-row"><span class="badge ba">12-18 meses</span><span class="badge bk">Licitación pública</span></div><div style="font-size:12px;color:var(--color-text-secondary);margin-top:6px"><span style="color:#1D9E75">✓</span> Claro y auditable &nbsp;<span style="color:#A32D2D">✗</span> Dependencia del proveedor</div></div>
+  <div class="card" style="border:2px solid var(--color-border-info)"><div class="badge bb" style="margin-bottom:5px">Recomendado</div><div class="ctitle">Licencia SaaS ChileCompra</div><div class="cbody" style="margin-top:4px">Empresa licencia. Estado opera. Licencia anual por módulo + soporte y mantención.</div><div class="pill-row"><span class="badge bg">3-6 meses</span><span class="badge bk">Convenio marco</span></div><div style="font-size:12px;color:var(--color-text-secondary);margin-top:6px"><span style="color:#1D9E75">✓</span> Mayor control Estado &nbsp;<span style="color:#A32D2D">✗</span> Requiere capacidad técnica interna</div></div>
+  <div class="card"><div class="clabel">Opción C</div><div class="ctitle">Convenio PPP tecnológico</div><div class="cbody" style="margin-top:4px">Empresa financia. Recupera en contrato 5-7 años + transferencia tecnológica al Estado al final.</div><div class="pill-row"><span class="badge bb">6-9 meses</span><span class="badge bk">Convenio colaboración</span></div><div style="font-size:12px;color:var(--color-text-secondary);margin-top:6px"><span style="color:#1D9E75">✓</span> Alinea incentivos &nbsp;<span style="color:#A32D2D">✗</span> Complejidad contractual</div></div>
+</div>
+<div class="slabel">Táctica para evitar licitación pública completa</div>
+<div class="card ca"><div class="ctitle">Convenio de colaboración interinstitucional bajo urgencia justificada</div><div class="cbody" style="margin-top:4px">No es compra de servicios — es acuerdo de cooperación. No está sujeto a la Ley 19.886 de la misma forma. Requiere resolución fundada del Ministerio invocando el Plan Nacional de Seguridad Pública como urgencia calificada. Revisión previa de Contraloría recomendada para blindar el proceso. Tiempo estimado: 6 a 8 semanas desde la decisión política.</div></div>
+<div class="slabel">Escalamiento tarifario si el sistema crece</div>
+<div class="card" style="padding:.75rem 1rem">
+  <div class="lrow"><span class="ln">Por módulo adicional activado</span><span class="badge bb">Tarifa incremental negociada en contrato base</span></div>
+  <div class="lrow"><span class="ln">Por región adicional incorporada</span><span class="badge bb">+15-20% OPEX sobre tarifa base regional</span></div>
+  <div class="lrow"><span class="ln">Por institución adicional conectada</span><span class="badge bk">Costo de integración técnica único + mantención</span></div>
+</div>`},
+{label:'09 · ROI',h:`
+<div class="sh"><div class="snum">09</div><div><div class="stitle">El caso de negocio para el Estado</div><div class="ssub">Multiplicador de capacidad instalada · no gasto adicional · ROI en 3 escenarios</div></div></div>
+<div class="krow">
+  <div class="kbox"><div class="knum">+$80M</div><div class="klabel">Costo anual del problema (USD)</div></div>
+  <div class="kbox"><div class="knum">40%</div><div class="klabel">Prófugos que reinciden</div></div>
+  <div class="kbox"><div class="knum">2x–4x</div><div class="klabel">ROI conservador 3 años</div></div>
+  <div class="kbox"><div class="knum">$14–21M</div><div class="klabel">Costo total 5 años nacional</div></div>
+</div>
+<div class="slabel">Proyección de impacto</div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="lrow"><span class="ln">12 meses · piloto norte</span><span class="badge bb">-8 a 12% prófugos en zona</span></div>
+  <div class="lrow"><span class="ln">24 meses · 5 regiones</span><span class="badge bb">-15 a 20% en regiones activas</span></div>
+  <div class="lrow"><span class="ln">36 meses · nacional</span><span class="badge bg">-25 a 35% universo total</span></div>
+  <div class="lrow"><span class="ln">Eficiencia policial</span><span class="badge bg">-40% horas-hombre en búsqueda manual</span></div>
+</div>
+<div class="g2">
+  <div class="card" style="padding:.75rem 1rem"><div class="clabel">Benchmarks internacionales</div><div class="lrow"><span class="ln">Reino Unido · ANPR</span><span class="badge bg">-23% prófugos · 3 años</span></div><div class="lrow"><span class="ln">Colombia · SIES</span><span class="badge bg">+31% tasa de captura</span></div><div class="lrow"><span class="ln">Israel</span><span class="badge bg">+40% eficacia estimada</span></div><div class="lrow"><span class="ln">Estonia</span><span class="badge bb">~0 prófugos domésticos</span></div></div>
+  <div class="card" style="padding:.75rem 1rem"><div class="clabel">Ruta presupuestaria</div><div class="lrow"><span class="ln">Año 1 · piloto</span><span class="badge bb">Línea modernización · sin Ley Presupuesto</span></div><div class="lrow"><span class="ln">Año 2 · expansión</span><span class="badge bb">Glosa inversión tecnológica LP 2027</span></div><div class="lrow"><span class="ln">Años 3-5 · nacional</span><span class="badge bg">Partida permanente Min. Seguridad</span></div></div>
+</div>
+<div class="sbox"><div class="st2">Argumento central para Hacienda</div><div class="sb">El Estado ya gasta en Carabineros, PDI, Ministerio Público y Gendarmería. Panoptech hace que ese gasto sea más efectivo sin aumentar dotación ni costo fijo. Es multiplicador de capacidad instalada. Eso es exactamente el lenguaje que mueve presupuestos en Dipres.</div></div>`},
+{label:'10 · Cierre',h:`
+<div class="sh"><div class="snum">10</div><div><div class="stitle">Lo que se le pide al Comisionado Soto</div><div class="ssub">Tres decisiones · plazo objetivo 30 de junio 2026</div></div></div>
+<div class="bigclaim">El norte no necesita más diagnósticos.<br>Necesita la herramienta que <span class="accent">ejecute</span> las órdenes que los tribunales ya emitieron.</div>
+<div class="slabel">Tres decisiones concretas</div>
+<div class="slist" style="margin-bottom:12px">
+  <div class="sitem"><div class="sn">1</div><div class="st">Autorizar levantamiento técnico de terreno en Iquique y Antofagasta: puntos de control reales, conectividad y capacidad operativa local. Duración: 5 días hábiles. Sin este paso no hay diseño de piloto real.</div></div>
+  <div class="sitem"><div class="sn">2</div><div class="st">Designar contraparte institucional (Carabineros o PDI) para co-diseñar el piloto. Sin ese campeón interno el sistema muere por inercia burocrática aunque funcione técnicamente y tenga presupuesto.</div></div>
+  <div class="sitem"><div class="sn">3</div><div class="st">Elevar la propuesta al Ministerio con respaldo del Comisionado para activar vía convenio de colaboración bajo urgencia del Plan Nacional. Plazo objetivo: 30 de junio 2026 para que el piloto tenga resultados antes de la discusión presupuestaria 2027.</div></div>
+</div>
+<div class="slabel">Compromisos de Pucará Seguridad</div>
+<div class="g3">
+  <div class="card ca"><div class="ctitle">Demo funcional — 2 semanas</div><div class="cbody">Módulo ACIP con flujo completo captura → cotejo → alerta disponible para evaluación técnica del equipo del Ministerio.</div></div>
+  <div class="card ca"><div class="ctitle">Documento técnico — 15 días hábiles</div><div class="cbody">Arquitectura de referencia, modelo de datos, protocolo de integración y SLA propuesto por módulo.</div></div>
+  <div class="card ca"><div class="ctitle">Memo jurídico — antes de reunión ministerial</div><div class="cbody">Constitucionalista valida distinción entre trazabilidad judicial focalizada y vigilancia masiva. Es el escudo ante cualquier cuestionamiento.</div></div>
+</div>
+<div style="margin-top:10px;padding:9px 13px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+  <span style="font-size:12px;color:var(--color-text-secondary)">Víctor Jorquera L. · vjorquera@pucaraseguridad.cl</span>
+  <span style="font-size:12px;color:var(--color-text-secondary)">+56 9 9888 6376 · Moneda 920 of. 905 · Santiago</span>
+</div>`}
+]},
+tecnico:{label:'Deck técnico',slides:[
+{label:'Portada técnica',h:`
+<div class="covhead">
+  <div><div style="font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.1em">Documento técnico · Equipos ministeriales</div>
+  <div style="font-size:17px;font-weight:500;color:var(--color-text-primary);margin-top:3px">Panoptech — Arquitectura técnica y propuesta de integración</div>
+  <div style="font-size:13px;color:var(--color-text-secondary)">Pucará Seguridad · Confidencial · Mayo 2026 · v3.0</div></div>
+</div>
+<div class="ibox"><div class="it">Qué cubre este documento</div><div class="ib">Arquitectura funcional de 6 capas, stack tecnológico recomendado, modelo de datos con ciclo de vida completo, integraciones institucionales por fase, estándares de seguridad y modelo de auditoría. Sin código. Con profundidad suficiente para que un equipo técnico ministerial evalúe viabilidad de integración.</div></div>
+<div class="slabel">Propuesta de valor diferenciada vs. soluciones existentes</div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="lrow"><span class="ln">Soluciones de una sola institución</span><span class="comp-old" style="font-size:12px">Operan en silo. No cruzan datos entre PDI, Carabineros y Poder Judicial.</span></div>
+  <div class="lrow"><span class="ln">Software genérico de seguridad</span><span class="comp-old" style="font-size:12px">No tiene integraciones con SIAP, SABI ni sistemas del Poder Judicial chileno.</span></div>
+  <div class="lrow"><span class="ln">Desarrollo interno del Estado</span><span class="comp-old" style="font-size:12px">Requiere 3-5 años. Ninguna institución tiene mandato para construir el integrador interinstitucional.</span></div>
+  <div class="lrow"><span class="ln">Panoptech</span><span class="comp-new" style="font-size:12px">Capa de integración interinstitucional en tiempo real. Ya desarrollado. Patentado. Con antecedente PDI 2016.</span></div>
+</div>
+<div class="g2">
+  <div class="card ca"><div class="ctitle">Lo que Panoptech hace</div><div class="cbody">Conecta SIAP + SABI + Poder Judicial + Registro Civil vía API de solo lectura en tiempo real. Cada institución mantiene control total de su propia base.</div></div>
+  <div class="card cw"><div class="ctitle">Lo que Panoptech no hace</div><div class="cbody">No reemplaza ningún sistema institucional. No almacena bases de encargos. No toma decisiones — informa al operador humano.</div></div>
+</div>`},
+{label:'T1 · Arquitectura',h:`
+<div class="sh"><div class="snumb">T1</div><div><div class="stitle">Arquitectura funcional de 6 capas</div><div class="ssub">Desde la captura en campo hasta la auditoría inmutable</div></div></div>
+<div class="stepper">
+  <div class="step"><div class="stepnum" style="background:#185FA5">1</div><div><div><span class="steplabel">Captura en campo</span><span class="stepdesc">App móvil nativa iOS/Android · OCR de documentos de identidad · geolocalización en tiempo real · modo offline con sincronización diferida para zonas de baja conectividad del norte.</span></div></div></div>
+  <div class="step"><div class="stepnum" style="background:#185FA5">2</div><div><div><span class="steplabel">Transmisión segura</span><span class="stepdesc">API REST cifrada TLS 1.3 · autenticación por certificado digital institucional · canal dedicado separado de internet público · VPN opcional para módulos de alta sensibilidad.</span></div></div></div>
+  <div class="step"><div class="stepnum" style="background:#185FA5">3</div><div><div><span class="steplabel">Bus de servicios ESB — integración interinstitucional</span><span class="stepdesc">Orquesta consultas a sistemas externos. No almacena datos de encargos — los consulta en tiempo real contra fuentes autorizadas vía API de solo lectura. Decisión arquitectónica que elimina el debate de soberanía de datos.</span></div></div></div>
+  <div class="step"><div class="stepnum" style="background:#185FA5">4</div><div><div><span class="steplabel">Motor de procesamiento y cotejo</span><span class="stepdesc">Algoritmo tolerante a errores tipográficos en nombres. Score de confianza por alerta. Umbral de coincidencia configurable por institución. No hay decisión binaria automática.</span></div></div></div>
+  <div class="step stephi"><div class="stepnum">5</div><div><div><span class="steplabel">Capa de alertas</span><span class="stepdesc">Push con confirmación de recepción · escalamiento automático si no hay acuse en tiempo definido · registro completo de la cadena de notificación · el operador humano decide la acción.</span></div></div></div>
+  <div class="step"><div class="stepnum" style="background:#444441">6</div><div><div><span class="steplabel">Auditoría inmutable</span><span class="stepdesc">Registro inalterable append-only de cada consulta: usuario, institución, módulo, timestamp, geolocalización, resultado y acción tomada. Base de accountability técnico y político del sistema.</span></div></div></div>
+</div>`},
+{label:'T2 · Stack',h:`
+<div class="sh"><div class="snumb">T2</div><div><div class="stitle">Stack tecnológico recomendado</div><div class="ssub">Cloud soberano · APIs estándar · mobile nativo · base cifrada · disponibilidad de infraestructura crítica</div></div></div>
+<div class="g2">
+  <div>
+    <div class="slabel">Infraestructura cloud</div>
+    <div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+      <div class="lrow"><span class="ln">Modelo de despliegue</span><span class="badge bb">Cloud soberano / híbrido</span></div>
+      <div class="lrow"><span class="ln">Nodo en territorio nacional</span><span class="badge bg">CSIRT-compatible · obligatorio</span></div>
+      <div class="lrow"><span class="ln">Arquitectura</span><span class="badge bb">Activo-activo · 2 zonas geográficas</span></div>
+      <div class="lrow"><span class="ln">Contenedores</span><span class="badge bk">Kubernetes / Docker</span></div>
+      <div class="lrow"><span class="ln">Gestión de secretos</span><span class="badge bk">Vault o equivalente · rotación automática</span></div>
+    </div>
+    <div class="slabel">Aplicación móvil de campo</div>
+    <div class="card" style="padding:.75rem 1rem">
+      <div class="lrow"><span class="ln">Plataformas</span><span class="badge bb">iOS + Android nativos</span></div>
+      <div class="lrow"><span class="ln">Captura OCR</span><span class="badge bg">Documentos de identidad chilenos y extranjeros</span></div>
+      <div class="lrow"><span class="ln">Modo offline</span><span class="badge bg">Sincronización diferida · crítico para el norte</span></div>
+      <div class="lrow"><span class="ln">Autenticación</span><span class="badge bb">Certificado institucional + PIN</span></div>
+    </div>
+  </div>
+  <div>
+    <div class="slabel">APIs y comunicación</div>
+    <div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+      <div class="lrow"><span class="ln">Protocolo</span><span class="badge bb">REST + OAuth 2.0</span></div>
+      <div class="lrow"><span class="ln">Cifrado en tránsito</span><span class="badge bg">TLS 1.3</span></div>
+      <div class="lrow"><span class="ln">Canal</span><span class="badge bk">Dedicado · fuera de internet público</span></div>
+      <div class="lrow"><span class="ln">Latencia objetivo alerta</span><span class="badge bg">&lt; 30 segundos end-to-end</span></div>
+    </div>
+    <div class="slabel">Base de datos y almacenamiento</div>
+    <div class="card" style="padding:.75rem 1rem">
+      <div class="lrow"><span class="ln">Cifrado en reposo</span><span class="badge bg">AES-256</span></div>
+      <div class="lrow"><span class="ln">Acceso</span><span class="badge bb">Por roles con MFA obligatorio</span></div>
+      <div class="lrow"><span class="ln">Logs de auditoría</span><span class="badge bg">Inmutables · append-only</span></div>
+      <div class="lrow"><span class="ln">Backup</span><span class="badge bk">Diario · retención 30 días · geo-redundante</span></div>
+    </div>
+  </div>
+</div>`},
+{label:'T3 · Datos',h:`
+<div class="sh"><div class="snumb">T3</div><div><div class="stitle">Modelo de datos — ciclo de vida completo</div><div class="ssub">Qué se captura · qué se almacena · quién accede · por cuánto tiempo · cómo se elimina</div></div></div>
+<div class="wbox"><div class="wt">Principio de mínima retención — en la arquitectura, no en la política</div><div class="wb">Los ciudadanos sin encargo no tienen dato almacenado que filtrar, que proteger ni que auditar. Esto no es una promesa contractual — está en el diseño técnico del sistema. No se puede filtrar lo que no existe.</div></div>
+<div class="slabel">Ciclo de vida del dato — flujo completo</div>
+<div class="stepper">
+  <div class="step"><div class="stepnum" style="background:#185FA5">1</div><div><span class="steplabel">Captura</span><span class="stepdesc">RUN o equivalente para extranjeros + timestamp + geolocalización. No se captura biometría, contenido adicional del documento ni datos de terceros presentes en el momento del control.</span></div></div>
+  <div class="step"><div class="stepnum" style="background:#185FA5">2</div><div><span class="steplabel">Cotejo en tiempo real</span><span class="stepdesc">El identificador se compara contra la base de encargos vigentes. Si no hay coincidencia, el dato se descarta en el mismo ciclo de procesamiento. Tiempo de vida: milisegundos.</span></div></div>
+  <div class="step stephi"><div class="stepnum">3a</div><div><span class="steplabel">Sin coincidencia → dato no persiste</span><span class="stepdesc">Ciudadano sin encargo no genera ningún registro almacenado. Cero huella en el sistema. Técnicamente imposible recuperar ese dato después del ciclo de procesamiento.</span></div></div>
+  <div class="step"><div class="stepnum" style="background:#444441">3b</div><div><span class="steplabel">Con coincidencia → registro de alerta (retención 5 años)</span><span class="stepdesc">Se registra: identificador, módulo de origen, geolocalización, timestamp, institución receptora, score de confianza. Se retiene 5 años o mientras la orden esté vigente. Eliminación automática al vencer el plazo.</span></div></div>
+  <div class="step"><div class="stepnum" style="background:#444441">4</div><div><span class="steplabel">Log de auditoría — siempre — retención 10 años</span><span class="stepdesc">Todo evento de consulta queda registrado independientemente del resultado. Inalterable. Accesible solo por administradores y auditores independientes. No contiene datos de identidad de personas sin alerta.</span></div></div>
+</div>
+<div class="slabel">Acceso ciudadano a sus propios datos</div>
+<div class="card ca"><div class="cbody">Protocolo de solicitud oficial con plazo de respuesta de 15 días hábiles. Canal: formulario en sitio web del Ministerio de Seguridad. Respuesta: confirmación de si el RUN fue consultado, cuándo y en qué módulo. No se entrega información operativa ni de terceros. Compatible con Ley 20.285 y reforma Ley 19.628.</div></div>`},
+{label:'T4 · Integraciones',h:`
+<div class="sh"><div class="snumb">T4</div><div><div class="stitle">Integraciones con sistemas institucionales</div><div class="ssub">Solo lectura · por fases · cada institución mantiene soberanía sobre sus datos</div></div></div>
+<div class="ibox"><div class="it">Decisión arquitectónica que elimina la objeción de soberanía de datos</div><div class="ib">Panoptech no replica ni almacena bases de encargos institucionales. Las consulta en tiempo real vía API de solo lectura. SIAP, SABI y los sistemas del Poder Judicial no cambian — Panoptech se conecta a ellos como cualquier aplicación autorizada.</div></div>
+<div class="slabel">Mapa de integraciones por fase</div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="lrow"><span class="ln">Registro Civil — validación de identidad</span><span class="badge bg">Fase 1 · infraestructura moderna · prioritaria</span></div>
+  <div class="lrow"><span class="ln">Poder Judicial — órdenes de aprehensión vigentes</span><span class="badge bg">Fase 1 · fuente primaria de encargos</span></div>
+  <div class="lrow"><span class="ln">SIAP · Carabineros</span><span class="badge bb">Fase 1-2 · cotejo y derivación de alertas</span></div>
+  <div class="lrow"><span class="ln">SABI · PDI</span><span class="badge bb">Fase 1-2 · cotejo y derivación de alertas</span></div>
+  <div class="lrow"><span class="ln">DGAC — vuelos nacionales</span><span class="badge bb">Fase 1 · módulo AVN</span></div>
+  <div class="lrow"><span class="ln">Gendarmería — recintos penitenciarios</span><span class="badge ba">Fase 2 · módulo AIRP</span></div>
+  <div class="lrow"><span class="ln">Municipios — inspectores</span><span class="badge ba">Fase 2-3 · módulo AFIM</span></div>
+</div>
+<div class="slabel">Requerimientos por cada acuerdo de interoperabilidad</div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="lrow"><span class="ln">SLA de respuesta de la API</span><span class="badge bg">Objetivo &lt; 500ms</span></div>
+  <div class="lrow"><span class="ln">Protocolo de actualización de la base</span><span class="badge bb">Frecuencia y formato acordados</span></div>
+  <div class="lrow"><span class="ln">Responsabilidad ante errores de cotejo</span><span class="badge bb">Definida en convenio bilateral</span></div>
+  <div class="lrow"><span class="ln">Auditoría compartida de consultas</span><span class="badge bb">Acceso a logs por institución</span></div>
+</div>
+<div class="card cw"><div class="ctitle">Riesgo crítico — SIAP y SABI no tienen APIs públicas hoy</div><div class="cbody" style="margin-top:4px">Conseguirlas puede tomar 6 a 18 meses de negociación técnica bilateral. Estrategia: comenzar con Registro Civil — tiene infraestructura moderna y experiencia en integraciones — y construir SIAP y SABI de forma incremental. El pitch político no puede prometer plazos que la realidad técnica no puede cumplir.</div></div>`},
+{label:'T5 · Seguridad',h:`
+<div class="sh"><div class="snumb">T5</div><div><div class="stitle">Seguridad y disponibilidad</div><div class="ssub">Estándares de infraestructura crítica de Estado · SLA · contingencia · respuesta ante incidentes</div></div></div>
+<div class="g2">
+  <div>
+    <div class="slabel">Estándares de seguridad requeridos</div>
+    <div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+      <div class="lrow"><span class="ln">ISO 27001</span><span class="badge bg">Requerido · gestión integral</span></div>
+      <div class="lrow"><span class="ln">AES-256 en reposo</span><span class="badge bg">Requerido</span></div>
+      <div class="lrow"><span class="ln">TLS 1.3 en tránsito</span><span class="badge bg">Requerido</span></div>
+      <div class="lrow"><span class="ln">Pentesting semestral</span><span class="badge bg">Por tercero independiente certificado</span></div>
+      <div class="lrow"><span class="ln">Gestión de vulnerabilidades</span><span class="badge bg">SLA crítico: parchado &lt; 24h</span></div>
+      <div class="lrow"><span class="ln">CSIRT Chile compatible</span><span class="badge bg">Notificación obligatoria de incidentes</span></div>
+      <div class="lrow"><span class="ln">SOC 2 Type II</span><span class="badge ba">Recomendado año 2</span></div>
+    </div>
+  </div>
+  <div>
+    <div class="slabel">Disponibilidad y contingencia</div>
+    <div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+      <div class="lrow"><span class="ln">SLA mínimo</span><span class="badge bg">99.5% disponibilidad</span></div>
+      <div class="lrow"><span class="ln">Arquitectura</span><span class="badge bb">Activo-activo · 2 zonas geográficas</span></div>
+      <div class="lrow"><span class="ln">RTO ante desastre</span><span class="badge bb">&lt; 4 horas</span></div>
+      <div class="lrow"><span class="ln">RPO máximo</span><span class="badge bb">&lt; 1 hora</span></div>
+      <div class="lrow"><span class="ln">Modo degradado</span><span class="badge bk">Definido por módulo antes de operar</span></div>
+      <div class="lrow"><span class="ln">Drill de contingencia</span><span class="badge bk">Semestral · con instituciones</span></div>
+    </div>
+  </div>
+</div>
+<div class="slabel">Protocolo de respuesta ante incidentes de seguridad</div>
+<div class="card ca"><div class="cbody">Notificación a CSIRT Chile, autoridad competente y personas afectadas en 72 horas (estándar RGPD europeo, más exigente que el requerimiento chileno actual). Plan de contención técnica, análisis forense independiente y comunicación pública estructurada. Este protocolo debe existir documentado y ensayarse antes de que el sistema entre en operación real — no como reacción a un incidente.</div></div>`},
+{label:'T6 · Auditoría',h:`
+<div class="sh"><div class="snumb">T6</div><div><div class="stitle">Modelo de auditoría y control de accesos</div><div class="ssub">Registro inmutable · roles diferenciados · alertas de uso anómalo · fiscalización externa</div></div></div>
+<div class="sbox"><div class="st2">La auditoría es el núcleo de legitimidad política del sistema</div><div class="sb">Sin auditoría robusta e independiente, este sistema es políticamente insostenible independientemente de su calidad técnica. El modelo de auditoría se diseña con el mismo rigor que el motor de cotejo.</div></div>
+<div class="g2">
+  <div>
+    <div class="slabel">Qué queda registrado en cada consulta</div>
+    <div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+      <div class="lrow"><span class="ln">Identificador del operador</span><span class="badge bg">Siempre · sin excepción</span></div>
+      <div class="lrow"><span class="ln">Institución de origen</span><span class="badge bg">Siempre</span></div>
+      <div class="lrow"><span class="ln">Módulo utilizado</span><span class="badge bg">Siempre</span></div>
+      <div class="lrow"><span class="ln">Timestamp exacto</span><span class="badge bg">Siempre</span></div>
+      <div class="lrow"><span class="ln">Geolocalización</span><span class="badge bg">Siempre</span></div>
+      <div class="lrow"><span class="ln">Resultado del cotejo</span><span class="badge bg">Siempre</span></div>
+      <div class="lrow"><span class="ln">Acción tomada</span><span class="badge bb">Cuando aplica</span></div>
+      <div class="lrow"><span class="ln">Identidad consultada</span><span class="badge ba">Solo si hay alerta activa</span></div>
+    </div>
+  </div>
+  <div>
+    <div class="slabel">Alertas automáticas de uso anómalo</div>
+    <div class="card cw" style="margin-bottom:10px"><div class="cbody">El sistema genera alertas al administrador cuando detecta: volumen inusual de consultas por operador, consultas fuera de horario o zona habitual, intentos de exportación masiva, acceso a módulos no autorizados, patrones que se desvíen del baseline estadístico en más de 3 desviaciones estándar.</div></div>
+    <div class="slabel">Fiscalización independiente</div>
+    <div class="card ca"><div class="ctitle">Consejo para la Transparencia</div><div class="cbody" style="margin-top:4px">Acceso de solo lectura a logs de auditoría. Reportes de uso por institución, módulo y período. Sin acceso a datos de identidad de las consultas. Informes públicos trimestrales de uso agregado del sistema. Esto convierte una potencial presión en aliado de legitimidad.</div></div>
+  </div>
+</div>`}
+]},
+dipres:{label:'One-pager Dipres',slides:[
+{label:'ROI ejecutivo',h:`
+<div class="sh"><div class="snumb"><i class="ti ti-report-money" style="font-size:16px;color:#185FA5"></i></div><div><div class="stitle">Caso de negocio para Dipres y Hacienda</div><div class="ssub">Panoptech · Pucará Seguridad · Mayo 2026 · v3.0</div></div></div>
+<div class="wbox"><div class="wt">Argumento central — el lenguaje que mueve presupuestos en Dipres</div><div class="wb">No estamos pidiendo presupuesto para tecnología. Estamos pidiendo presupuesto para que la inversión existente en Carabineros, PDI, Ministerio Público y Gendarmería produzca los resultados que el Plan Nacional de Seguridad comprometió. Es multiplicador de capacidad instalada, no gasto adicional.</div></div>
+<div class="slabel">El problema cuantificado</div>
+<div class="krow">
+  <div class="kbox"><div class="knum">40.825</div><div class="klabel">Prófugos activos</div></div>
+  <div class="kbox"><div class="knum">40%</div><div class="klabel">Reinciden durante evasión</div></div>
+  <div class="kbox"><div class="knum">+$80M</div><div class="klabel">Costo anual estimado (USD)</div></div>
+  <div class="kbox"><div class="knum">~3.500</div><div class="klabel">Hrs-hombre semanales perdidas</div></div>
+</div>
+<div class="slabel">La inversión — desglosada y con fuente de financiamiento</div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="lrow"><span class="ln">Piloto norte · 12 meses</span><span class="badge bb">~$760–970K USD · ~$720–920M CLP</span></div>
+  <div class="lrow"><span class="ln">Fuente año 1</span><span class="badge bg">Línea modernización Min. Seguridad · sin Ley Presupuesto</span></div>
+  <div class="lrow"><span class="ln">Expansión 5 regiones · año 2</span><span class="badge bb">~$2.5M USD adicionales</span></div>
+  <div class="lrow"><span class="ln">Fuente año 2</span><span class="badge bb">Glosa inversión tecnológica Ley Presupuesto 2027</span></div>
+  <div class="lrow"><span class="ln">Implementación nacional · años 3-5</span><span class="badge bb">$4–6M USD CAPEX total</span></div>
+  <div class="lrow"><span class="ln">OPEX anual en régimen nacional</span><span class="badge bk">$2–3M USD anuales</span></div>
+  <div class="lrow"><span class="ln">Costo total 5 años</span><span class="badge ba">$14–21M USD</span></div>
+</div>
+<div class="slabel">El retorno</div>
+<div class="card" style="padding:.75rem 1rem;margin-bottom:10px">
+  <div class="lrow"><span class="ln">Reducción costo del problema año 3</span><span class="badge bg">-25 a 35% · ahorro ~$20–28M USD/año</span></div>
+  <div class="lrow"><span class="ln">Eficiencia operativa policial</span><span class="badge bg">-40% horas-hombre en búsqueda manual</span></div>
+  <div class="lrow"><span class="ln">Reducción reincidencia</span><span class="badge bg">-15% estimado en zonas activas</span></div>
+  <div class="lrow"><span class="ln">ROI conservador 3 años</span><span class="badge bg">2x–4x la inversión total</span></div>
+</div>`},
+{label:'3 escenarios',h:`
+<div class="sh"><div class="snumb"><i class="ti ti-chart-line" style="font-size:16px;color:#185FA5"></i></div><div><div class="stitle">Proyección de impacto en 3 escenarios</div><div class="ssub">Metodología acordada con el Ministerio antes del piloto · no ex post</div></div></div>
+<div class="ibox"><div class="it">Por qué definir los escenarios antes del piloto</div><div class="ib">Si los criterios de éxito se definen después de ver los resultados, siempre hay presión para interpretar los datos favorablemente. Los tres escenarios se acuerdan con el Ministerio antes de comenzar y son el mecanismo de rendición de cuentas presupuestaria ante Dipres.</div></div>
+<div class="slabel">Escenario conservador — cumple 3 de 6 KPIs</div>
+<div class="card cd" style="margin-bottom:8px"><div class="cbody">Reducción 8–12% en zonas activas al año 1. Crecimiento lento por resistencia institucional y baja cobertura de módulos. Eficiencia policial -20%. ROI a 3 años: 1.5x. Criterio: revisión técnica obligatoria antes de escalar.</div><div class="pill-row"><span class="badge br">~3.300–4.900 capturas adicionales acumuladas año 1</span></div></div>
+<div class="slabel">Escenario base — cumple 4-5 de 6 KPIs</div>
+<div class="card cw" style="margin-bottom:8px"><div class="cbody">Reducción 15–20% en regiones activas al año 2. Escalamiento a 5 regiones en mes 18. Eficiencia policial -30% horas-hombre. ROI a 3 años: 2.5x. Criterio: escalamiento automático a plan nacional.</div><div class="pill-row"><span class="badge ba">~6.100–8.200 capturas adicionales acumuladas año 2</span></div></div>
+<div class="slabel">Escenario optimista — cumple 6 de 6 KPIs</div>
+<div class="card ca" style="margin-bottom:8px"><div class="cbody">Reducción 25–35% del universo total al año 3. Cobertura nacional con los 8 módulos activos. Eficiencia policial -40% horas-hombre. ROI a 3 años: 4x. Efecto disuasorio no cuantificado en las cifras anteriores.</div><div class="pill-row"><span class="badge bg">~10.200–14.300 capturas adicionales acumuladas año 3</span></div></div>
+<div class="sbox"><div class="st2">Recomendación para la presentación ante Dipres</div><div class="sb">Presentar escenario base como proyección oficial. Conservador como piso de garantía mínima que justifica la inversión. Optimista como referencia de potencial, nunca como compromiso. Los KPIs del piloto son el mecanismo de rendición de cuentas presupuestaria.</div></div>`},
+{label:'Narrativa Hacienda',h:`
+<div class="sh"><div class="snumb"><i class="ti ti-building-bank" style="font-size:16px;color:#185FA5"></i></div><div><div class="stitle">Narrativa financiera completa para Hacienda</div><div class="ssub">Los 4 argumentos · la glosa presupuestaria · el argumento para la Ley de Presupuesto</div></div></div>
+<div class="qblock"><div class="qtext">"No estamos pidiendo presupuesto para tecnología. Estamos pidiendo presupuesto para que la inversión existente en seguridad pública produzca los resultados que el Plan Nacional de Seguridad Pública comprometió ante la ciudadanía."</div><div class="qsrc">Narrativa recomendada para presentación ante el Ministerio de Hacienda</div></div>
+<div class="slabel">Los 4 argumentos para el Ministro de Hacienda</div>
+<div class="slist" style="margin-bottom:12px">
+  <div class="sitem"><div class="sn">1</div><div class="st">El gasto ya existe. Chile gasta miles de millones anuales en Carabineros, PDI, Gendarmería y Ministerio Público. Panoptech hace que ese gasto sea más efectivo sin agregar líneas de costo fijo. No es gasto nuevo — es apalancamiento del gasto existente. Eso no requiere argumentar por recursos adicionales, sino por eficiencia del gasto actual.</div></div>
+  <div class="sitem"><div class="sn">2</div><div class="st">El costo de no hacer nada es medible y crece. 40.825 prófugos generan un costo directo e indirecto estimado en más de USD 80 millones anuales. Ese número crece cada año sin acción. La inacción no es gratuita — tiene un costo presupuestario real en horas policiales perdidas y reincidencia.</div></div>
+  <div class="sitem"><div class="sn">3</div><div class="st">El piloto norte es bajo riesgo presupuestario con KPIs predefinidos. ~$850 millones CLP para 12 meses con criterios de éxito acordados antes de comenzar. Si el piloto no cumple los KPIs, el escalamiento no ocurre. Si los cumple, la decisión de escalar está respaldada por evidencia real, no por promesas de proveedor.</div></div>
+  <div class="sitem"><div class="sn">4</div><div class="st">El ROI está documentado con benchmarks internacionales auditables. UK, Colombia e Israel muestran retornos entre 1.5x y 4x en sistemas equivalentes. Las proyecciones de Panoptech usan el rango conservador como base oficial. No es optimismo artificial — es el piso demostrado por países con sistemas comparables.</div></div>
+</div>
+<div class="slabel">Lenguaje específico para la Ley de Presupuesto 2027</div>
+<div class="card cb"><div class="ctitle">Glosa sugerida para la Ley de Presupuesto</div><div class="cbody" style="margin-top:4px">"Para el financiamiento del Sistema de Trazabilidad e Interconexión Institucional para la Ejecución de Órdenes Judiciales, incluyendo su operación, mantención y evaluación de impacto, en el marco del Plan Nacional de Seguridad Pública." Esta redacción es tecnológicamente neutral — no nombra al proveedor ni a la plataforma específica, lo que facilita la aprobación parlamentaria.</div></div>
+<div class="slabel">Ruta presupuestaria recomendada</div>
+<div class="card" style="padding:.75rem 1rem">
+  <div class="lrow"><span class="ln">Año 1 · piloto norte</span><span class="badge bb">Línea modernización Min. Seguridad · sin Ley Presupuesto</span></div>
+  <div class="lrow"><span class="ln">Año 2 · expansión 5 regiones</span><span class="badge bb">Glosa inversión tecnológica LP 2027</span></div>
+  <div class="lrow"><span class="ln">Años 3-5 · nacional</span><span class="badge bg">Partida permanente presupuesto Min. Seguridad</span></div>
+</div>`}
+]}
+};
+
+let cs=0,cr=0;
+const sk=Object.keys(D);
+function buildSec(){const el=document.getElementById('sectabs');el.innerHTML='';sk.forEach((k,i)=>{const b=document.createElement('button');b.className='stab'+(i===0?' on':'');b.textContent=D[k].label;b.onclick=()=>swSec(i);el.appendChild(b);});}
+function buildST(){const el=document.getElementById('slidetabs');el.innerHTML='';D[sk[cs]].slides.forEach((s,i)=>{const b=document.createElement('button');b.className='slt'+(i===cr?' on':'');b.textContent=s.label;b.onclick=()=>goTo(i);el.appendChild(b);});}
+function buildSl(){const el=document.getElementById('slides');el.innerHTML='';D[sk[cs]].slides.forEach((s,i)=>{const d=document.createElement('div');d.className='slide'+(i===cr?' on':'');d.innerHTML=s.h;el.appendChild(d);});}
+function updNav(){const sl=D[sk[cs]].slides;document.getElementById('pb').disabled=cr===0;document.getElementById('nb').disabled=cr===sl.length-1;document.getElementById('ctr').textContent=D[sk[cs]].label+' · '+(cr+1)+' de '+sl.length;document.querySelectorAll('.slt').forEach((t,i)=>t.classList.toggle('on',i===cr));}
+function goTo(n){document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('on',i===n));cr=n;updNav();}
+function swSec(n){cs=n;cr=0;document.querySelectorAll('.stab').forEach((t,i)=>t.classList.toggle('on',i===n));buildST();buildSl();updNav();}
+function nav(d){const sl=D[sk[cs]].slides;goTo(Math.max(0,Math.min(sl.length-1,cr+d)));}
+buildSec();swSec(0);
+</script>
