@@ -1,2 +1,2 @@
-# ponoptech
+# panoptech
 OnePage Proyecto PanopTech
